@@ -1,0 +1,36 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
+// Apply the java plugin to add support for Java
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+jar {
+    baseName = 'java-db-sample'
+    version =  '1.0.0'
+}
+
+// In this section you declare where to find the dependencies of your project
+repositories {
+    jcenter()
+    maven { url "http://central.maven.org/maven2/" }
+}
+
+dependencies {
+	// fluent jdbc
+    compile group: 'org.codejargon', name: 'fluentjdbc', version: '1.6' 
+	// apache dbutils
+	compile group: 'commons-dbutils', name: 'commons-dbutils', version: '1.6'
+	// postgresql
+	compile group: 'org.postgresql', name: 'postgresql', version: '42.0.0'
+    // for testing
+    testCompile 'junit:junit:4.12'    
+	testCompile 'org.dbunit:dbunit:2.5.3'
+}
