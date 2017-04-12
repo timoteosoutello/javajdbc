@@ -8,20 +8,14 @@ package com.github.dto;
 public class UserDTO {
 
 	private String username;
-	private Integer age;
+	private String id;
+	private String type;
 
 	/**
 	 * @return the username
 	 */
 	public String getUsername() {
 		return username;
-	}
-
-	/**
-	 * @return the age
-	 */
-	public Integer getAge() {
-		return age;
 	}
 
 	/**
@@ -33,20 +27,33 @@ public class UserDTO {
 	}
 
 	/**
-	 * @param age
-	 *            the age to set
+	 * @return the id
 	 */
-	public void setAge(Integer age) {
-		this.age = age;
+	public String getId() {
+		return id;
 	}
 
 	/**
-	 * @param username
-	 * @param age
+	 * @param id
+	 *            the id to set
 	 */
-	public UserDTO(String username, Integer age) {
-		super();
-		this.username = username;
-		this.age = age;
+	public void setId(String id) {
+		this.id = id;
 	}
+
+	/**
+	 * @return the type
+	 */
+	public String getType() {
+		return type;
+	}
+
+	/**
+	 * @param type
+	 *            the type to set
+	 */
+	public void setType(String type) {
+		this.type = type;
+	}
+
 }

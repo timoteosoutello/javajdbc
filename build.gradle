@@ -30,6 +30,8 @@ dependencies {
 	compile group: 'commons-dbutils', name: 'commons-dbutils', version: '1.6'
 	// postgresql
 	compile group: 'org.postgresql', name: 'postgresql', version: '42.0.0'
+	// log4j
+	compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.8.2'	
     // for testing
     testCompile 'junit:junit:4.12'    
 	testCompile 'org.dbunit:dbunit:2.5.3'

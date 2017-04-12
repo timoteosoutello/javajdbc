@@ -1,51 +1,49 @@
 package com.github.service.impl;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.github.helper.DatabaseHelper;
 import com.github.service.DabaseService;
 
 public class DatabaseServiceImpl implements DabaseService {
-	/* Instantiate DB objects */
-	Connection connection = null;
-	Statement statement = null;
-	ResultSet resultSet = null;
-	ResultSetMetaData resultSetMetaData = null;
 
-	public void createConnection() throws SQLException {
+	private static final Logger LOGGER = LogManager.getLogger();
+
+	public ArrayList<HashMap<String, String>> runQuery(String query, Integer limitSize) {
+		/* Instantiate database objects */
+		Statement statement = null;
+		ResultSet resultSet = null;
+		Connection connection = null;
+		ArrayList<HashMap<String, String>> result = new ArrayList<HashMap<String, String>>();
 		try {
-			/* Get connection from DB service */
-			Class.forName("org.postgresql.Driver");
-			String url = "jdbc:postgresql://localhost:5432/postgres";
-			Connection conn = DriverManager.getConnection(url, "postgres", "system");
-			/* Get DB schema name of tenant */
-			statement = conn.createStatement();
-			resultSet = statement.executeQuery("select * from teste");
-			/* Column information is required for creating response */
-			resultSetMetaData = resultSet.getMetaData();
-			/* Iterate over records */
+			// Get connection from DB service
+			connection = DatabaseHelper.getDBConnection();
+			// Get DB schema name of tenant
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery(query);
+			ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
+			// Get Data
 			while (resultSet.next()) {
-				System.out.println((String) resultSet.getString("name") + " - " + (Integer) resultSet.getInt("id"));
+				HashMap<String, String> map = new HashMap<String, String>();
+				for (int i = 1; i <= resultSetMetaData.getColumnCount(); i++) {
+					map.put(resultSetMetaData.getColumnLabel(i), resultSet.getObject(i).toString());
+				}
+				result.add(map);
 			}
 		} catch (Exception e) {
 			System.out.println(e.getLocalizedMessage());
+			LOGGER.error(e.getLocalizedMessage());
 		} finally {
-			/* Close DB connection/statement/resultSet */
-			if (statement != null) {
-				statement.close();
-			}
-
-			if (connection != null) {
-				connection.close();
-			}
-
-			if (resultSet != null) {
-				resultSet.close();
-			}
+			DatabaseHelper.closeDatabaseInstances(connection, resultSet, statement, false);
 		}
+		return result;
 	}
 }
