@@ -65,7 +65,7 @@ public class DatabaseHelper {
 			if (resulSet != null && !resulSet.isClosed())
 				resulSet.close();
 		} catch (SQLException e) {
-			System.out.println(e.getLocalizedMessage());
+			LOGGER.error(e.getLocalizedMessage());
 		}
 	}
 
@@ -85,7 +85,7 @@ public class DatabaseHelper {
 			}
 
 		} catch (SQLException e) {
-			System.out.println(e.getLocalizedMessage());
+			LOGGER.error(e.getLocalizedMessage());
 		}
 	}
 
@@ -100,7 +100,7 @@ public class DatabaseHelper {
 			if (statement != null && !statement.isClosed())
 				statement.close();
 		} catch (SQLException e) {
-			System.out.println(e.getLocalizedMessage());
+			LOGGER.error(e.getLocalizedMessage());
 		}
 	}
 
