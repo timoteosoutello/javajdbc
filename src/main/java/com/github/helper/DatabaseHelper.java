@@ -13,7 +13,7 @@ import com.github.constants.DatabaseConstants;
 
 /**
  * 
- * Class responsible to be a helper
+ * Class responsible to be a helper for database functions.
  * 
  * @author Timóteo Soutello
  *
@@ -96,10 +96,10 @@ public class DatabaseHelper {
 	 * @param Statement
 	 *            instance
 	 */
-	public static void closeStatement(Statement Statement) {
+	public static void closeStatement(Statement statement) {
 		try {
-			if (Statement != null && !Statement.isClosed())
-				Statement.close();
+			if (statement != null && !statement.isClosed())
+				statement.close();
 		} catch (SQLException e) {
 			System.out.println(e.getLocalizedMessage());
 		}
