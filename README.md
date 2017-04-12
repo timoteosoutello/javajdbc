@@ -1,6 +1,5 @@
 # Java JDBC examples
 
-For test:
 1-) Configure the database;
 1.1-) Install postgresql 9.6
 https://www.postgresql.org/download/
