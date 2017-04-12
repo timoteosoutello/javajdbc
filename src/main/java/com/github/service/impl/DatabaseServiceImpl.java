@@ -12,6 +12,7 @@ import java.util.Iterator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.github.constants.DatabaseConstants;
 import com.github.helper.DatabaseHelper;
 import com.github.service.DabaseService;
 
@@ -60,7 +61,7 @@ public class DatabaseServiceImpl implements DabaseService {
 			statement = connection.createStatement();
 			for (Iterator<String> iterator = queries.iterator(); iterator.hasNext();) {
 				String query = (String) iterator.next();
-				statement.executeUpdate(query);
+				statement.execute(query);
 				LOGGER.debug("Running "+ query.toString());
 			}
 			connection.commit();
@@ -75,4 +76,37 @@ public class DatabaseServiceImpl implements DabaseService {
 			DatabaseHelper.closeDatabaseInstances(connection, resultSet, statement, false);
 		}
 	}
+	
+	public void runBatchedQueries(ArrayList<String> queries) {
+		/* Instantiate database objects */
+		Statement statement = null;
+		ResultSet resultSet = null;
+		Connection connection = null;
+		try {
+			connection = DatabaseHelper.getDBConnection();
+			connection.setAutoCommit(false);
+			statement = connection.createStatement();
+			final int batchSize = Integer.parseInt(DatabaseConstants.MAX_LIMIT.getValue());
+			int count = 0;
+			for (Iterator<String> iterator = queries.iterator(); iterator.hasNext();) {
+				String query = (String) iterator.next();
+				statement.addBatch(query);
+				LOGGER.debug("Running "+ query.toString());
+				if(++count % batchSize == 0) {
+					statement.executeBatch();
+				}
+			}
+			statement.executeBatch();
+			connection.commit();
+		} catch (Exception e) {
+			LOGGER.error(e.getLocalizedMessage());
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				LOGGER.error(e.getLocalizedMessage());
+			}
+		} finally {
+			DatabaseHelper.closeDatabaseInstances(connection, resultSet, statement, false);
+		}
+	}	
 }
