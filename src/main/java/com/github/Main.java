@@ -3,6 +3,7 @@ package com.github;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 import com.github.service.impl.DatabaseServiceImpl;
 
@@ -31,6 +32,12 @@ public class Main {
 		queries.add(queryUpdate1.toString());
 		StringBuilder queryUpdate2 = new StringBuilder().append("update adm_user set type = 2 where name = 'Test'");
 		queries.add(queryUpdate2.toString());
+		
+		StringBuilder queryInsert = new StringBuilder().append("insert into adm_user (id,name,type) values ('").append(UUID.randomUUID().toString()).append("',").append("'insertTest',").append("1)");
+		queries.add(queryInsert.toString());
+		
+		StringBuilder queryDelete = new StringBuilder().append("delete from adm_user where name = 'insertTest'");
+		queries.add(queryDelete.toString());		
 		service.runQueries(queries);
 		
 		result = service.runQuery(query.toString());
