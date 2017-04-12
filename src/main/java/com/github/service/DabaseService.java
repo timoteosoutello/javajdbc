@@ -10,7 +10,18 @@ import java.util.HashMap;
  *
  */
 public interface DabaseService {
-	
+
+	/**
+	 * run single query.
+	 * @param query instance.
+	 * @return ArrayList<HashMap<String, String>> with the values.
+	 */
 	ArrayList<HashMap<String, String>> runQuery(String query);
+
+	/**
+	 * Run queries.
+	 * @param queries instances.
+	 */
+	void runQueries(ArrayList<String> queries);
 
 }

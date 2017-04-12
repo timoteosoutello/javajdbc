@@ -42,7 +42,6 @@ public class DatabaseServiceImpl implements DabaseService {
 				result.add(map);
 			}
 		} catch (Exception e) {
-			System.out.println(e.getLocalizedMessage());
 			LOGGER.error(e.getLocalizedMessage());
 		} finally {
 			DatabaseHelper.closeDatabaseInstances(connection, resultSet, statement, false);
@@ -66,12 +65,10 @@ public class DatabaseServiceImpl implements DabaseService {
 			}
 			connection.commit();
 		} catch (Exception e) {
-			System.out.println(e.getLocalizedMessage());
 			LOGGER.error(e.getLocalizedMessage());
 			try {
 				connection.rollback();
 			} catch (SQLException e1) {
-				System.out.println(e.getLocalizedMessage());
 				LOGGER.error(e.getLocalizedMessage());
 			}
 		} finally {

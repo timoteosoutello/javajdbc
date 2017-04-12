@@ -39,7 +39,6 @@ public class DatabaseHelper {
 					DatabaseConstants.USER.getValue(), DatabaseConstants.PASSWORD.getValue());
 			return dbConnection;
 		} catch (SQLException e) {
-			System.out.println(e.getLocalizedMessage());
 			LOGGER.error(e.getLocalizedMessage());
 		}
 		return dbConnection;
